@@ -11,7 +11,7 @@ isUserName = False #checking if username was provided
 isStarted  = False #checking if the app is just starting
 
 def sendSMS(phoneNumber):
-    userName = "sandbox"
+    userName = "firmware_engineer"
     apiKey = os.environ['API_KEY']
     africastalking.initialize(userName,apiKey)
     sms = africastalking.SMS
