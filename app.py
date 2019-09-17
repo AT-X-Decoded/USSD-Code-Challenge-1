@@ -36,7 +36,8 @@ def ussdCallback():
     if userResp == "":
         if isStarted:
             #if the user sent an empty string when the app is up and running
-            response = "END ERROR\nYou provided no input\n"  
+            response = "END ERROR\nYou provided no input\n"
+            isStarted = False  
         elif isStarted==False:   
             #if the user is starting the app    
             response = "CON What would you like us to call you:\n"
@@ -47,6 +48,8 @@ def ussdCallback():
         #check if the user's input was valid username
         if userNameCheck.match(userResp) is None:
             response = "END The username was not according to guidelines.\n"
+            isStarted = False
+            isUserName = False
         else:
         #if the user provided a valid username
             userName = userResp #save the username
@@ -58,6 +61,8 @@ def ussdCallback():
         #check if the user's input was a valid email
         if emailCheck.match(userResp) is None:
             response = "END Oh snap! It seems you did not provide a valid email address.\n"
+            isStarted = False
+            isEmail =False
         else:
             userEmail = userResp #save the email
             response = "END Wow! You have successfully registered on our platform!\n"
