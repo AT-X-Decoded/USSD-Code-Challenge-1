@@ -6,6 +6,7 @@ userEmail = ""
 userName  = ""
 isEmail    = False #checking if email was provided
 isUserName = False #checking if username was provided
+isStarted  = False
 
 # Landing page for the site
 @site.route('/')
@@ -15,6 +16,7 @@ def home():
 # Implementing the ussd functionality
 @site.route('/app/ussd',methods=['POST','GET'])
 def ussdCallback():
+    global isStarted
     global response
     global userEmail
     global userName
@@ -27,7 +29,14 @@ def ussdCallback():
     userResp = request.values.get("text", "default")
 
     if userResp == "":
-        response = "CON What would you like us to call you:\n"
+        if isStarted:
+            response = "END ERROR\nYou provided no input\n"  
+        elif isStarted==False:          
+            response = "CON What would you like us to call you:\n"
+            isStarted = True
+            isEmail = True
+    elif isEmail:
+        response = f"END welcome {userResp}\n"
     return response
 
 if __name__ == "__main__":
