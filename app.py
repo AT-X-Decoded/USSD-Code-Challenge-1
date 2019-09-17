@@ -32,7 +32,8 @@ def ussdCallback():
     serviceCode = request.values.get("serviceCode", None)
     phoneNumber = request.values.get("phoneNumber", None)
     userResp = request.values.get("text", "default")
-
+    #split the user input using * to get the last input from the user
+    userResp = userResp.split('*')[-1]
     if userResp == "":
         if isStarted:
             #if the user sent an empty string when the app is up and running
@@ -42,7 +43,6 @@ def ussdCallback():
             #if the user is starting the app    
             response = "CON What would you like us to call you:\n"
             response += "Guideline (4-8) characters\n"
-            userResp = ""
             isStarted = True
             isUserName = True #time of obtaining the username
     elif isUserName:
@@ -56,7 +56,6 @@ def ussdCallback():
             userName = userResp #save the username
             response = f"CON Hello {userResp} :-),\n"
             response += "Please enter your email:\n"
-            userResp = ""
             isEmail = True #time to obtain the email
             isUserName = False #time to obtain username is over
     elif isEmail:
