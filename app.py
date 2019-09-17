@@ -1,4 +1,6 @@
 from flask import Flask,render_template,request
+import africastalking
+import os
 import re
 site     = Flask(__name__)
 response = "" 
@@ -7,6 +9,14 @@ userName  = ""
 isEmail    = False #checking if email was provided
 isUserName = False #checking if username was provided
 isStarted  = False #checking if the app is just starting
+
+def sendSMS(phoneNumber):
+    userName = "sandbox"
+    apiKey = os.environ['API_KEY']
+    africastalking.initialize(userName,apiKey)
+    sms = africastalking.SMS
+
+    response = sms.send(f"Welcome to the platform!\nRegistration details: Username:{userName} Email:{userEmail}",[phoneNumber])
 
 # Landing page for the site
 @site.route('/')
@@ -70,6 +80,7 @@ def ussdCallback():
             response += "You will receive an SMS confirming your registration.\n"
             isEmail =False #time to obtain email is over
             isStarted = False #app ends
+            sendSMS(phoneNumber)
 
     return response
 
