@@ -24,7 +24,7 @@ def ussdCallback():
     global isUserName
     #regex corner
     userNameRegex = '^[a-zA-Z]+[a-zA-Z0-9._-]{3,8}$'
-    emailRegex = '^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9-.]+$'
+    emailRegex = '^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$'
     emailCheck = re.compile(emailRegex)
     userNameCheck = re.compile(userNameRegex)
     # getting operation data for the app
