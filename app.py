@@ -60,7 +60,7 @@ def ussdCallback():
     elif isEmail:
         #check if the user's input was a valid email
         if emailCheck.match(userResp) is None:
-            response = "END Oh snap! It seems you did not provide a valid email address.\n"
+            response = f"END Oh snap! It seems you did not provide a valid email address.\n{userResp}"
             isStarted = False
             isEmail =False
         else:
