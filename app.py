@@ -1,12 +1,12 @@
 from flask import Flask,render_template,request
-
+import re
 site     = Flask(__name__)
 response = "" 
 userEmail = ""
 userName  = ""
 isEmail    = False #checking if email was provided
 isUserName = False #checking if username was provided
-isStarted  = False
+isStarted  = False #checking if the app is just starting
 
 # Landing page for the site
 @site.route('/')
@@ -22,6 +22,11 @@ def ussdCallback():
     global userName
     global isEmail
     global isUserName
+    #regex corner
+    userNameRegex = '^[a-zA-Z]+[a-zA-Z0-9._-]{3,8}$'
+    emailRegex = '^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9-.]+$'
+    emailCheck = re.compile(emailRegex)
+    userNameCheck = re.compile(userNameRegex)
     # getting operation data for the app
     sessionId = request.values.get("sessionId", None)
     serviceCode = request.values.get("serviceCode", None)
@@ -30,13 +35,36 @@ def ussdCallback():
 
     if userResp == "":
         if isStarted:
+            #if the user sent an empty string when the app is up and running
             response = "END ERROR\nYou provided no input\n"  
-        elif isStarted==False:          
+        elif isStarted==False:   
+            #if the user is starting the app    
             response = "CON What would you like us to call you:\n"
+            response += "Guideline (4-8) characters\n"
             isStarted = True
-            isEmail = True
+            isUserName = True #time of obtaining the username
+    elif isUserName:
+        #check if the user's input was valid username
+        if userNameCheck.match(userResp) is None:
+            response = "END The username was not according to guidelines.\n"
+        else:
+        #if the user provided a valid username
+            userName = userResp #save the username
+            response = f"CON Hello {userResp} :-),\n"
+            response += "Please enter your email:\n"
+            isEmail = True #time to obtain the email
+            isUserName = False #time to obtain username is over
     elif isEmail:
-        response = f"END welcome {userResp}\n"
+        #check if the user's input was a valid email
+        if emailCheck.match(userResp) is None:
+            response = "END Oh snap! It seems you did not provide a valid email address.\n"
+        else:
+            userEmail = userResp #save the email
+            response = "END Wow! You have successfully registered on our platform!\n"
+            response += "You will receive an SMS confirming your registration.\n"
+            isEmail =False #time to obtain email is over
+            isStarted = False #app ends
+
     return response
 
 if __name__ == "__main__":
