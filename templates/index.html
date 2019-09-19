@@ -5,8 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>AT USSD SMS</title>
+    <style>
+        body{
+            font-family:Arial, Helvetica, sans-serif;
+            margin: 0;
+        }
+        header{
+            padding: 2em;
+            color:#f1e312;
+            width:100%;
+            background-color: rgb(114, 91, 241);
+            font-size: 110%;
+            text-align: center;
+        }
+        h2{
+           text-align: center; 
+        }
+        h3{
+            padding-left:0.5em;
+        }
+        ul{
+            margin:0 auto;
+        }
+        ul li{
+            
+            list-style-type:circle;
+        }
+        ul li:not(:last-child)::after{
+            content:"";
+            display: block;
+            height:2.5em;
+            width:3px;
+            background-color: #ff6732;
+        }
+        a{
+            text-decoration: none;
+            color:#666;
+        }
+        a:hover{
+            color:#ff6732;
+        }
+    </style>
 </head>
 <body>
-    <h1>SMS and USSD App</h1>
+    <header>SMS and USSD App</header>
+    <main>
+        <h2>Welcome to the USSD-SMS App using <a href="https://africastalking.com">Africastalking</a> SDK.</h2>
+        <article>
+            <h3>How to use the App using the simulator:</h3>
+            <ul>
+                <li> <a href="https://account.africastalking.com/auth/register/">Login</a> to Africastalking </li>
+                <li>Click <b>Go to sandbox App</b></li>
+                <li>Go to the simulator </li>
+                <li>Input your number</li>
+                <li>Go to the USSD section; Enter <span>*384*05990#</span></li>
+                <li>Register on the platform</li>
+                <li>Wait for your message</li>
+            </ul>
+        </article>
+    </main>
 </body>
 </html>
